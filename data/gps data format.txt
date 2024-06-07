@@ -1,0 +1,6 @@
+*GPVTG Course, speed information relative to the ground
+GPGGA Time, position, fix type data
+GPGSA GPS receiver operating mode, satellites used in the position solution, DOP values
+GPGSV Time, position, fix type data
+GPGLL Latitude, longitude, UTC time of position fix and status
+*GPRMC Time, date, position, course, speed data
