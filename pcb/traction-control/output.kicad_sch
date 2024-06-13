@@ -1469,7 +1469,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1ea18ce6-dcbd-478d-99a0-e19cbc911329")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR047"
 			(at 74.93 50.8 0)
 			(effects
 				(font
@@ -1519,11 +1519,11 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "#PWR044")
+					(reference "#PWR047")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
-					(reference "#PWR038")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -1539,7 +1539,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "204cf7c1-a1ae-4745-b6c2-6951f23a28cb")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR050"
 			(at 52.07 81.28 0)
 			(effects
 				(font
@@ -1589,11 +1589,11 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "#PWR047")
+					(reference "#PWR050")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
-					(reference "#PWR041")
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -1609,7 +1609,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4a79f882-9370-4ac0-80e5-2f86eb66e7e5")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR049"
 			(at 102.87 53.34 0)
 			(effects
 				(font
@@ -1659,11 +1659,11 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "#PWR046")
+					(reference "#PWR049")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
-					(reference "#PWR040")
+					(reference "#PWR044")
 					(unit 1)
 				)
 			)
@@ -1679,7 +1679,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7b040fe3-a2fe-49bd-8435-7e8548d37646")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR048"
 			(at 95.25 50.8 0)
 			(effects
 				(font
@@ -1729,11 +1729,11 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "#PWR045")
+					(reference "#PWR048")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
-					(reference "#PWR039")
+					(reference "#PWR043")
 					(unit 1)
 				)
 			)
@@ -1749,7 +1749,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8a19af45-8dff-4871-8d94-5cdbdd0c6fe9")
-		(property "Reference" "D4"
+		(property "Reference" "D3"
 			(at 105.41 54.2924 90)
 			(effects
 				(font
@@ -1812,7 +1812,7 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "D4")
+					(reference "D3")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
@@ -1934,7 +1934,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "af16033a-a874-4eb1-9645-e674b9c4bc7b")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR046"
 			(at 52.07 50.8 0)
 			(effects
 				(font
@@ -1984,11 +1984,11 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "#PWR043")
+					(reference "#PWR046")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
-					(reference "#PWR037")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -2004,7 +2004,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c44ab192-fd40-434f-b098-97129899c6ef")
-		(property "Reference" "R12"
+		(property "Reference" "R11"
 			(at 54.61 52.0699 0)
 			(effects
 				(font
@@ -2049,6 +2049,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C25900"
+			(at 52.07 53.34 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "5765d1f2-5267-4dbd-a361-393795a4a75a")
 		)
@@ -2058,7 +2067,7 @@
 		(instances
 			(project "traction-control"
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/38342423-5a8c-4a47-a7cd-f2e71952ef73"
-					(reference "R12")
+					(reference "R11")
 					(unit 1)
 				)
 				(path "/eb07aa05-a882-45b0-b9de-bffe5728f99f/96f55cd2-4032-4864-9209-b13ab493c175"
