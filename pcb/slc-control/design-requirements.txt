@@ -1,0 +1,8 @@
+altitude(pressure sensor) (LPS22HB)
+compass sensor (QMC5883L)
+gps (MAX2769B)
+3 sensor channels (mosfet read)
+1 speed replicate channel (mosfet out)
+mV speed channel(DAC with zero gain amplifier)
+screen connection
+2 big mosfet outputs
