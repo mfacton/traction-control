@@ -5524,6 +5524,12 @@
 		)
 	)
 	(junction
+		(at 245.11 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0850e131-0eb4-4adb-b667-a9a52ec4113f")
+	)
+	(junction
 		(at 226.06 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5588,12 +5594,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4f8f2de1-4566-47d6-9ab3-04c19fca0a77")
-	)
-	(junction
-		(at 247.65 85.09)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "52ef837b-8ce0-4e85-8d21-ff3c1f7e3133")
 	)
 	(junction
 		(at 238.76 53.34)
@@ -6219,7 +6219,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 82.55) (xy 247.65 85.09)
+			(xy 245.11 82.55) (xy 245.11 85.09)
 		)
 		(stroke
 			(width 0)
@@ -6509,7 +6509,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 95.25) (xy 247.65 97.79)
+			(xy 245.11 95.25) (xy 245.11 97.79)
 		)
 		(stroke
 			(width 0)
@@ -7009,7 +7009,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 87.63) (xy 247.65 85.09)
+			(xy 245.11 87.63) (xy 245.11 85.09)
 		)
 		(stroke
 			(width 0)
@@ -7266,6 +7266,16 @@
 			(type default)
 		)
 		(uuid "83364146-ca3b-4a71-abae-6fc1f3fb0eb3")
+	)
+	(wire
+		(pts
+			(xy 245.11 85.09) (xy 252.73 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84b2f088-1e0e-476b-ae00-59912d8a1fbf")
 	)
 	(wire
 		(pts
@@ -7566,16 +7576,6 @@
 			(type default)
 		)
 		(uuid "a162b895-1064-43ea-b109-cbb7fe654d42")
-	)
-	(wire
-		(pts
-			(xy 247.65 85.09) (xy 252.73 85.09)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a1f1423d-28d3-483d-981f-825e29115dcf")
 	)
 	(polyline
 		(pts
@@ -8149,7 +8149,7 @@
 	)
 	(wire
 		(pts
-			(xy 247.65 97.79) (xy 260.35 97.79)
+			(xy 245.11 97.79) (xy 260.35 97.79)
 		)
 		(stroke
 			(width 0)
@@ -9776,6 +9776,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C25744"
+			(at 271.78 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "cf9f434e-07e2-4cef-ae1d-4bb142692f9f")
 		)
@@ -10298,7 +10307,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 247.65 91.44 0)
+		(at 245.11 91.44 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10307,7 +10316,7 @@
 		(fields_autoplaced yes)
 		(uuid "2518a509-12b3-4352-ac04-594ef7be7dff")
 		(property "Reference" "C10"
-			(at 251.46 90.1699 0)
+			(at 248.92 90.1699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10316,7 +10325,7 @@
 			)
 		)
 		(property "Value" "22u"
-			(at 251.46 92.7099 0)
+			(at 248.92 92.7099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10325,7 +10334,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 248.6152 95.25 0)
+			(at 246.0752 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10334,7 +10343,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 247.65 91.44 0)
+			(at 245.11 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10343,7 +10352,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 247.65 91.44 0)
+			(at 245.11 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10352,7 +10361,7 @@
 			)
 		)
 		(property "LCSC" "C45783"
-			(at 247.65 91.44 0)
+			(at 245.11 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10555,6 +10564,15 @@
 		)
 		(property "Description" "Resistor"
 			(at 154.94 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25744"
+			(at 154.94 29.21 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11295,6 +11313,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C15127"
+			(at 148.59 36.83 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "1"
 			(uuid "46820569-7b79-492d-b64e-b602e65a1250")
 		)
@@ -11426,6 +11453,15 @@
 			)
 		)
 		(property "Description" "Resistor"
+			(at 271.78 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C25890"
 			(at 271.78 146.05 0)
 			(effects
 				(font
@@ -11903,6 +11939,15 @@
 			)
 		)
 		(property "Description" "1A Low Dropout regulator, positive, 3.3V fixed output, SOT-223"
+			(at 260.35 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C6186"
 			(at 260.35 85.09 0)
 			(effects
 				(font
@@ -12730,7 +12775,7 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 247.65 82.55 0)
+		(at 245.11 82.55 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12739,7 +12784,7 @@
 		(fields_autoplaced yes)
 		(uuid "96949645-4a9d-4036-b2c9-1433b1023855")
 		(property "Reference" "#PWR017"
-			(at 247.65 86.36 0)
+			(at 245.11 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12748,7 +12793,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 247.65 77.47 0)
+			(at 245.11 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12756,7 +12801,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 247.65 82.55 0)
+			(at 245.11 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12765,7 +12810,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 247.65 82.55 0)
+			(at 245.11 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12774,7 +12819,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 247.65 82.55 0)
+			(at 245.11 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13200,6 +13245,15 @@
 			)
 		)
 		(property "Description" "30V Vds, 5.7A Id, N-Channel MOSFET, SOT-23"
+			(at 130.81 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C20917"
 			(at 130.81 36.83 0)
 			(effects
 				(font
