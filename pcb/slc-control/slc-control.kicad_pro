@@ -245,8 +245,8 @@
   "net_settings": {
     "classes": [
       {
-        "bus_width": 12,
-        "clearance": 0.2,
+        "bus_width": 18,
+        "clearance": 0.127,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -259,7 +259,92 @@
         "track_width": 0.2,
         "via_diameter": 0.6,
         "via_drill": 0.3,
-        "wire_width": 6
+        "wire_width": 10
+      },
+      {
+        "bus_width": 18,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Analog",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgb(255, 153, 0)",
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 10
+      },
+      {
+        "bus_width": 18,
+        "clearance": 0.2,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Digital",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgb(255, 0, 255)",
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 10
+      },
+      {
+        "bus_width": 18,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Ground",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgb(194, 194, 194)",
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 10
+      },
+      {
+        "bus_width": 18,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgb(194, 0, 0)",
+        "track_width": 0.5,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 10
+      },
+      {
+        "bus_width": 18,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Signal",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgb(255, 255, 194)",
+        "track_width": 0.2,
+        "via_diameter": 0.6,
+        "via_drill": 0.3,
+        "wire_width": 10
       }
     ],
     "meta": {
@@ -267,7 +352,48 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": ".*(PWR|VCC|VDD|VBATT|VBUS|VUSB).*"
+      },
+      {
+        "netclass": "Ground",
+        "pattern": ".*(GND|VSS).*"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": ".*(CLK|SCK|SCL).*"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": ".*(SDA|MOSI|MISO|DIO).*"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": ".*(XTAL).*"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": ".*USB(-|\\+)"
+      },
+      {
+        "netclass": "Digital",
+        "pattern": "/(BTN|SW|RE)\\d.*"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "\\+\\d.*"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/SWO"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": ".*IRQ"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
@@ -382,6 +508,31 @@
     "subpart_first_id": 65,
     "subpart_id_separator": 0
   },
-  "sheets": [],
+  "sheets": [
+    [
+      "6ffa397a-4219-4120-8d9c-a8574c5f8061",
+      "Root"
+    ],
+    [
+      "e791d3eb-150c-474b-a7a0-4c089d6a9b7c",
+      "Output1"
+    ],
+    [
+      "cf63e881-468f-4878-b184-78e35c4ec3f6",
+      "Output2"
+    ],
+    [
+      "749cfdc2-4312-40c8-8518-8da84358bed4",
+      "Sensor1"
+    ],
+    [
+      "0d2d4681-57cd-48e7-9a66-fd308e6ff458",
+      "Sensor2"
+    ],
+    [
+      "9d1c8705-5a7e-4c64-a1ed-2005716f4b02",
+      "Sensor3"
+    ]
+  ],
   "text_variables": {}
 }
