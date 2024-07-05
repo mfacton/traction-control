@@ -511,8 +511,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SIG1_Pin SIG2_Pin */
-  GPIO_InitStruct.Pin = SIG1_Pin|SIG2_Pin;
+  /*Configure GPIO pins : SIG2_Pin SIG1_Pin */
+  GPIO_InitStruct.Pin = SIG2_Pin|SIG1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

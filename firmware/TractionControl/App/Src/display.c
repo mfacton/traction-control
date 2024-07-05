@@ -78,6 +78,7 @@ static void adc_live_update(void) {
 	sprintf(buf, "%lu", adc_count);
 	adc_count = 0;
 	ssd1306_WriteString(buf, Font_7x10, 1);
+	HAL_Delay(980);
 }
 
 static struct Screen trigger_thresh = {.type = ScreenEdit, .memType = MemFloat, .loc = MemSlipThresh};

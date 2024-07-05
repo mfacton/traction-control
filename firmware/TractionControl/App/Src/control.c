@@ -10,8 +10,8 @@ extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
-static float tire_rpm = 0;
-static float vehicle_rpm = 0;
+static uint16_t tire_rpm = 0;
+static uint16_t vehicle_rpm = 0;
 static float slip = 0;
 
 static uint16_t rpm_max(uint16_t a, uint16_t b) {
@@ -22,9 +22,9 @@ static uint16_t rpm_max(uint16_t a, uint16_t b) {
 }
 
 static void control_update(void) {
-	tire_rpm = rpm_max(Tach_RPM(0), Tach_RPM(2));
-	HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, tire_rpm > Memory_ReadShort(MemRPMThresh));
-	//do slip stuff here
+	tire_rpm = rpm_max(Tach_RPM(TachEngine), Tach_RPM(TachSensor2));
+	HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, tire_rpm < Memory_ReadShort(MemRPMThresh));
+
 	if (Memory_ReadByte(MemGPSMode)) {
 		if (GPS_Fix()) {
 			vehicle_rpm = GPS_RPM();
@@ -33,11 +33,11 @@ static void control_update(void) {
 			return;
 		}
 	}else{
-		vehicle_rpm = Tach_RPM(1);
+		vehicle_rpm = Tach_RPM(TachSensor1);
 	}
 	vehicle_rpm = rpm_max(vehicle_rpm, Memory_ReadShort(MemMinRPM));
 	if (vehicle_rpm < tire_rpm) {
-		slip = 100 - vehicle_rpm * 100 / tire_rpm;
+		slip = 100.0 - (float)vehicle_rpm * 100.0 / (float)tire_rpm;
 	} else {
 		slip = 0;
 	}
@@ -71,7 +71,7 @@ float Control_Ratio(void) {
 	if (tire_rpm == 0) {
 		return 0;
 	}
-	return vehicle_rpm/tire_rpm;
+	return (float)vehicle_rpm/(float)tire_rpm;
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -79,7 +79,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 		Input_Handler();//50hz
 	}else if (htim == &htim2) {
 		Tach_CountHandler();//50khz
-	}else{
+	}else {
 		Tach_UpdateHandler();//50hz
 	}
 }

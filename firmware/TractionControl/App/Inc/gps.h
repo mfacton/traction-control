@@ -3,7 +3,7 @@
 
 #include "stdint.h"
 
-#define GPS_BUFFER 200
+#define GPS_BUFFER 256
 
 void GPS_Init(void);
 void GPS_Update(void);

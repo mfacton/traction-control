@@ -20,7 +20,7 @@ static uint16_t gps_rpm = 0;
 static uint8_t last_fix = 0;
 
 static void gps_start(void) {
-	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, gps_rx_buf, GPS_BUFFER);
+	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, gps_rx_buf, GPS_BUFFER-1);
 	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
 }
 
@@ -42,6 +42,8 @@ void gps_read_data(void) {
 		gps_fix = 0;
 		return;
 	}
+	gps_fix =1;
+	return;
 	cnt = 0;
 	while (cnt < 7) {
 		if (*ptr == ',') {
@@ -96,6 +98,6 @@ uint8_t GPS_Fix(void) {
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t size) {
 	UNUSED(huart);
 	UNUSED(size);
-	memcpy(gps_read_buf, gps_rx_buf, GPS_BUFFER);
+	memcpy(gps_read_buf, gps_rx_buf, GPS_BUFFER-1);
 	gps_flag = 1;
 }
