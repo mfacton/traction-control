@@ -68,10 +68,10 @@ float Control_Slip(void) {
 }
 
 float Control_Ratio(void) {
-	if (tire_rpm == 0) {
+	if (vehicle_rpm == 0) {
 		return 0;
 	}
-	return (float)vehicle_rpm/(float)tire_rpm;
+	return (float)tire_rpm/(float)vehicle_rpm;
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
