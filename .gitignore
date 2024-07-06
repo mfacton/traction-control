@@ -9,6 +9,7 @@ fp-info-cache
 ### STM32 ###
 .metadata/
 Debug/
+Release/
 Drivers/
 Middlewares/
 USB_DEVICE/
