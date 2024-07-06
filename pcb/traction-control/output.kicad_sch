@@ -1841,7 +1841,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Q_Dual_PMOS_S1G1S2G2D2D2D1D1"
+		(property "Value" "DMP4025LSD-VB"
 			(at 99.06 53.3401 0)
 			(effects
 				(font
@@ -2177,7 +2177,7 @@
 		(dnp no)
 		(uuid "d397f583-2929-4674-9838-4a56143b2c2b")
 		(property "Reference" "Q5"
-			(at 76.454 51.054 0)
+			(at 68.326 50.546 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2185,14 +2185,13 @@
 				(justify left)
 			)
 		)
-		(property "Value" "Q_Dual_PMOS_S1G1S2G2D2D2D1D1"
-			(at 78.74 53.3401 0)
+		(property "Value" "DMP4025LSD-VB"
+			(at 76.454 48.006 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "Package_SO:SOP-8_3.9x4.9mm_P1.27mm"
