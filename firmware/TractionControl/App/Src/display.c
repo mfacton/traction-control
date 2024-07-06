@@ -385,6 +385,7 @@ void Display_Update(void) {
 }
 
 void Display_UpdateGPS(void) {
+	ssd1306_FillRectangle(120, 0, 127, 7, 0);
 	if (GPS_Fix()) {
 		ssd1306_DrawBitmap(120, 0, bm_signal, 8, 8, 1);
 	}else{

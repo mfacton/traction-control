@@ -6,11 +6,13 @@
 #include "main.h"
 #include "display.h"
 
-extern UART_HandleTypeDef huart1;
-extern DMA_HandleTypeDef hdma_usart1_rx;
+#include "ssd1306.h"
+#include "stdio.h"
 
-static uint8_t gps_rx_buf[GPS_BUFFER] = {0};
-static uint8_t gps_read_buf[GPS_BUFFER] = {0};
+extern UART_HandleTypeDef huart1;
+
+static uint8_t gps_rx_buf[200] = {0};
+static uint8_t gps_read_buf[200] = {0};
 static volatile uint8_t gps_flag = 0;
 
 static uint8_t gps_fix = 0;
@@ -19,14 +21,15 @@ static uint16_t gps_rpm = 0;
 
 static uint8_t last_fix = 0;
 
-static void gps_start(void) {
-	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, gps_rx_buf, GPS_BUFFER-1);
-	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
-}
+//static void gps_start(void) {
+//	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, gps_rx_buf, 999);
+//	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
+//}
 
 void GPS_Init(void) {
-	gps_start();
 	HAL_GPIO_WritePin(PGPS_GPIO_Port, PGPS_Pin, 1);
+	HAL_Delay(100);
+	HAL_UART_Receive_DMA(&huart1, gps_rx_buf, 199);
 }
 
 void gps_read_data(void) {
@@ -42,8 +45,6 @@ void gps_read_data(void) {
 		gps_fix = 0;
 		return;
 	}
-	gps_fix =1;
-	return;
 	cnt = 0;
 	while (cnt < 7) {
 		if (*ptr == ',') {
@@ -74,8 +75,8 @@ void gps_read_data(void) {
 void GPS_Update(void) {
 	if (gps_flag) {
 		gps_flag = 0;
-		gps_start();
 		gps_read_data();
+		HAL_UART_Receive_DMA(&huart1, gps_rx_buf, 199);
 		if (gps_fix != last_fix) {
 			last_fix = gps_fix;
 			Display_UpdateGPS();
@@ -95,9 +96,8 @@ uint8_t GPS_Fix(void) {
 	return gps_fix;
 }
 
-void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t size) {
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
 	UNUSED(huart);
-	UNUSED(size);
-	memcpy(gps_read_buf, gps_rx_buf, GPS_BUFFER-1);
+	memcpy(gps_read_buf, gps_rx_buf, 199);
 	gps_flag = 1;
 }
