@@ -1537,7 +1537,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "5f36aa06-6dd2-4c4c-90ca-7c2533474b13")
 		(property "Reference" "Q9"
 			(at 80.264 63.754 0)
@@ -1639,7 +1639,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "65272c5d-905d-41a1-9ee7-666e5c21a20e")
 		(property "Reference" "Q9"
 			(at 100.584 63.754 0)
