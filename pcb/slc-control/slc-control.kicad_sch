@@ -19513,6 +19513,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C25900"
+			(at 243.84 247.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "2"
 			(uuid "c75852fd-cf72-444e-bdd2-2df662771665")
 		)
@@ -20426,7 +20435,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "66c600dc-3121-4b6f-b5db-741620bf42df")
 		(property "Reference" "L2"
