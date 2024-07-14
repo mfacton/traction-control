@@ -19,10 +19,10 @@ void Control_Update(void) {
 	tire_rpm = rpm_max(Tach_RPM(TachEngine), Tach_RPM(TachSensor2));
 
 	if (Memory_ReadByte(MemGPSMode)) {
-		const uint8_t second = GPS_Fix() && (GPS_Speed() > Memory_ReadFloat(MemSecondThresh));
+		const uint8_t second = GPS_Fix() && (GPS_Speed() < Memory_ReadFloat(MemSecondThresh));
 		HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, second);
 	}else{
-		const uint8_t second = Memory_ReadFloat(MemTireCirc)*Tach_RPM(TachSensor1)*0.00094697;
+		const uint8_t second = Memory_ReadFloat(MemTireCirc)*Tach_RPM(TachSensor1)*0.00094697 < Memory_ReadFloat(MemSecondThresh);
 		HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, second);
 	}
 
