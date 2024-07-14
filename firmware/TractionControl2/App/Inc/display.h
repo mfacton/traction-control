@@ -6,6 +6,8 @@
 #define DISPLAY_MAX_STACK 4
 #define DISPLAY_MAX_CHARACTERS 12
 
+#define DISPLAY_FACTORY_PASSWORD 200
+
 enum ScreenType {
 	ScreenEdit,
 	ScreenLive,

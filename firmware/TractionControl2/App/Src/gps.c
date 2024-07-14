@@ -7,6 +7,7 @@
 #include "display.h"
 
 extern UART_HandleTypeDef GPS_HANDLE;
+extern DMA_HandleTypeDef GPS_DMA_HANDLE;
 
 static uint8_t gps_rx_buf[GPS_BUFFER_SIZE] = {0};
 static uint8_t gps_read_buf[GPS_BUFFER_SIZE] = {0};
@@ -19,7 +20,8 @@ static uint16_t gps_rpm = 0;
 static uint8_t last_fix = 0;
 
 void GPS_Init(void) {
-	HAL_UART_Receive_DMA(&GPS_HANDLE, gps_rx_buf, GPS_BUFFER_SIZE);
+	HAL_UARTEx_ReceiveToIdle_DMA(&GPS_HANDLE, gps_rx_buf, GPS_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&GPS_DMA_HANDLE, DMA_IT_HT);
 }
 
 void gps_read_data(void) {
@@ -32,7 +34,6 @@ void gps_read_data(void) {
 		ptr++;
 	}
 	if (*(ptr+2) != 'V') {
-		gps_fix = 0;
 		return;
 	}
 	cnt = 0;
@@ -53,12 +54,15 @@ void gps_read_data(void) {
 	*ptr_end = '\0';
 	sscanf(ptr, "%f", &gps_speed);
 	float speed_temp = gps_speed;
+	//convert kph to mph
+	gps_speed*=0.621371;
 	//convert mph to kph
 	const float min_spd = Memory_ReadFloat(MemMinSpeed)*1.60934;
 	if (speed_temp < min_spd) {
 		speed_temp = min_spd;
 	}
-	gps_rpm = (uint16_t)((float)(1e6/60.0)*speed_temp/(float)Memory_ReadFloat(MemTireCirc));
+	//convert from inches to mm too
+	gps_rpm = (uint16_t)((float)(1e6/60.0)*speed_temp*0.0393701/(float)Memory_ReadFloat(MemTireCirc));
 	gps_fix = 1;
 }
 
@@ -74,9 +78,10 @@ void GPS_Update(void) {
 }
 
 void GPS_Handler(void) {
-	memcpy(gps_read_buf, gps_rx_buf, GPS_BUFFER_SIZE);
 	gps_flag = 1;
-	HAL_UART_Receive_DMA(&GPS_HANDLE, gps_rx_buf, GPS_BUFFER_SIZE);
+	memcpy(gps_read_buf, gps_rx_buf, GPS_BUFFER_SIZE);
+	HAL_UARTEx_ReceiveToIdle_DMA(&GPS_HANDLE, gps_rx_buf, GPS_BUFFER_SIZE);
+	__HAL_DMA_DISABLE_IT(&GPS_DMA_HANDLE, DMA_IT_HT);
 }
 
 uint16_t GPS_RPM(void) {

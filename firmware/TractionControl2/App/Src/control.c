@@ -17,7 +17,14 @@ static uint16_t rpm_max(uint16_t a, uint16_t b) {
 
 void Control_Update(void) {
 	tire_rpm = rpm_max(Tach_RPM(TachEngine), Tach_RPM(TachSensor2));
-	HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, tire_rpm < Memory_ReadShort(MemSecondThresh));
+
+	if (Memory_ReadByte(MemGPSMode)) {
+		const uint8_t second = GPS_Fix() && (GPS_Speed() > Memory_ReadFloat(MemSecondThresh));
+		HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, second);
+	}else{
+		const uint8_t second = Memory_ReadFloat(MemTireCirc)*Tach_RPM(TachSensor1)*0.00094697;
+		HAL_GPIO_WritePin(DRV2_GPIO_Port, DRV2_Pin, second);
+	}
 
 	if (Memory_ReadByte(MemGPSMode)) {
 		if (GPS_Fix()) {
@@ -31,7 +38,7 @@ void Control_Update(void) {
 	}
 	vehicle_rpm = rpm_max(vehicle_rpm, Memory_ReadShort(MemMinRPM));
 	if (vehicle_rpm < tire_rpm) {
-		slip = 100.0 - (float)vehicle_rpm * 100.0 / (float)tire_rpm;
+		slip = 100.0*((float)tire_rpm-(float)vehicle_rpm/(float)vehicle_rpm);
 	} else {
 		slip = 0;
 	}

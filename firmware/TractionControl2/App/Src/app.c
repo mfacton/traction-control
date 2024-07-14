@@ -44,7 +44,8 @@ void HAL_COMP_TriggerCallback(COMP_HandleTypeDef* hcomp) {
 	Tach_CompHandler(hcomp);
 }
 
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t size) {
 	UNUSED(huart);
+	UNUSED(size);
 	GPS_Handler();
 }

@@ -4,12 +4,12 @@
 #include "inttypes.h"
 
 #define MEMORY_BYTES 5
-#define MEMORY_SHORTS 9
+#define MEMORY_SHORTS 10
 #define MEMORY_FLOATS 3
 #define MEMORY_SIZE MEMORY_BYTES+2*MEMORY_SHORTS+4*MEMORY_FLOATS
 
 //Change to reset memory on upload
-#define MEMORY_HASH 1
+#define MEMORY_HASH 3
 
 enum MemoryType {
 	MemByte,
@@ -44,6 +44,8 @@ enum MemoryShort{
 
 	//for extra hysteresis if necessary
 	MemTachLowThresh,
+
+	MemFactoryPassword,
 };
 enum MemoryFloat{
 	MemTireCirc,//inches

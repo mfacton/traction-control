@@ -32,14 +32,16 @@ void Memory_Reset(void) {
 	Memory_WriteShort(MemSens1Thresh, 2048);
 	Memory_WriteShort(MemTachHighThresh, 2048);
 	Memory_WriteShort(MemTachLowThresh, 2048);
+
+	Memory_WriteShort(MemFactoryPassword, 0);//reset to 0
 	//Floats
 	Memory_WriteFloat(MemTireCirc, 53.4); //53.4 inches
 
-	Memory_WriteFloat(MemMinSpeed, 2.0); //2 mph
+	Memory_WriteFloat(MemMinSpeed, 2.0); //mph
 
 	Memory_WriteFloat(MemSlipThresh, 10.0); //10.0%
 
-	Memory_WriteFloat(MemSecondThresh, 80.0); //mph
+	Memory_WriteFloat(MemSecondThresh, 60.0); //mph
 }
 
 uint8_t Memory_ReadByte(uint8_t loc) {

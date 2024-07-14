@@ -8,7 +8,7 @@
 #include "control.h"
 
 static void trigger_ratio_update() {
-	Oled_ClearRectangle(44, 34, 86, 44);
+	Oled_ClearRectangle(44, 34, 86, 45);
 	if (Memory_ReadByte(MemGPSMode) && !GPS_Fix()) {
 		Oled_SetCursor(44, 34);
 		Oled_WriteString("No Fix", &font_7x10);
@@ -22,7 +22,7 @@ static void trigger_ratio_update() {
 }
 
 static void trigger_live_update() {
-	Oled_ClearRectangle(44, 34, 86, 44);
+	Oled_ClearRectangle(44, 34, 86, 45);
 	if (Memory_ReadByte(MemGPSMode) && !GPS_Fix()) {
 		Oled_SetCursor(44, 34);
 		Oled_WriteString("No Fix", &font_7x10);
@@ -36,7 +36,7 @@ static void trigger_live_update() {
 }
 
 static void rpm_live_update(uint8_t chan) {
-	Oled_ClearRectangle(48, 34, 75, 43);
+	Oled_ClearRectangle(48, 34, 75, 44);
 	Oled_SetCursor(48, 34);
 	char buf[DISPLAY_MAX_CHARACTERS];
 	sprintf(buf, "%4d", Tach_RPM(chan));
@@ -56,7 +56,7 @@ static void sensor2_live_update(void) {
 }
 
 static void gps_live_update(void) {
-	Oled_FillRectangle(44, 34, 86, 44);
+	Oled_ClearRectangle(44, 34, 86, 45);
 	if (GPS_Fix()) {
 		Oled_SetCursor(51, 34);
 		char buf[DISPLAY_MAX_CHARACTERS];
@@ -69,65 +69,73 @@ static void gps_live_update(void) {
 	}
 }
 
+static struct Screen factory_password = {.type = ScreenEdit, .memType = MemShort, .loc = MemFactoryPassword};
+
+static struct Screen factory_min_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMinRPM};
+static struct Screen gps_min_speed = {.type = ScreenEdit, .memType = MemFloat, .loc = MemMinSpeed};
+static struct Screen tach_threshold = {.type = ScreenEdit, .memType = MemShort, .loc = MemTachHighThresh};
+static struct Screen tach_max_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMaxTach};
+static struct Screen sensor1_max_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMaxSens1};
+static struct Screen sensor2_max_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMaxSens2};
+static struct Option factory_options[7] = {
+		{.type = OptionAction, .text = "Reset", .action = &Memory_Reset},
+		{.type = OptionRedirect, .text = "Min RPM", .redirect = &factory_min_rpm},
+		{.type = OptionRedirect, .text = "Min Speed", .redirect = &gps_min_speed},
+		{.type = OptionRedirect, .text = "Tach Thresh", .redirect = &tach_threshold},
+		{.type = OptionRedirect, .text = "Max RPM Tach", .redirect = &tach_max_rpm},
+		{.type = OptionRedirect, .text = "Max RPM Sns1", .redirect = &sensor1_max_rpm},
+		{.type = OptionRedirect, .text = "Max RPM Sns2", .redirect = &sensor2_max_rpm}};
+static struct Screen factory = {.type = ScreenScroll, .optionCount = 7, .options = factory_options};
+
 static struct Screen trigger_thresh = {.type = ScreenEdit, .memType = MemFloat, .loc = MemSlipThresh};
 static struct Screen trigger_aux = {.type = ScreenEdit, .memType = MemShort, .loc = MemSecondThresh};
-static struct Screen trigger_min_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMinRPM};
 static struct Screen trigger_ratio = {.type = ScreenLive, .update = &trigger_ratio_update};
 static struct Screen trigger_live = {.type = ScreenLive, .update = &trigger_live_update};
-static struct Option trigger_options[5] = {
+static struct Option trigger_options[4] = {
 		{.type = OptionRedirect, .text = "Slip Thresh", .redirect = &trigger_thresh},
 		{.type = OptionRedirect, .text = "Aux Thresh", .redirect = &trigger_aux},
-		{.type = OptionRedirect, .text = "Min RPM", .redirect = &trigger_min_rpm},
 		{.type = OptionRedirect, .text = "Ratio", .redirect = &trigger_ratio},
 		{.type = OptionRedirect, .text = "Live", .redirect = &trigger_live}};
-static struct Screen trigger = {.type = ScreenScroll, .optionCount = 5, .options = trigger_options};
+static struct Screen trigger = {.type = ScreenScroll, .optionCount = 4, .options = trigger_options};
 
 static struct Screen gps_tire_circ = {.type = ScreenEdit, .memType = MemFloat, .loc = MemTireCirc};
-static struct Screen gps_min_speed = {.type = ScreenEdit, .memType = MemFloat, .loc = MemMinSpeed};
 static struct Screen gps_live = {.type = ScreenLive, .update = &gps_live_update};
-static struct Option gps_options[3] = {
+static struct Option gps_options[2] = {
 		{.type = OptionRedirect, .text = "Tire Circ", .redirect = &gps_tire_circ},
-		{.type = OptionRedirect, .text = "Min Speed", .redirect = &gps_min_speed},
 		{.type = OptionRedirect, .text = "Live", .redirect = &gps_live}};
-static struct Screen gps = {.type = ScreenScroll, .optionCount = 3, .options = gps_options};
+static struct Screen gps = {.type = ScreenScroll, .optionCount = 2, .options = gps_options};
 
 static struct Screen tach_ppr = {.type = ScreenEdit, .memType = MemByte, .loc = MemPPRTach};
-static struct Screen tach_max_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMaxTach};
 static struct Screen tach_live = {.type = ScreenLive, .update = &tach_live_update};
-static struct Screen tach_threshold = {.type = ScreenEdit, .memType = MemShort, .loc = MemTachHighThresh};
-static struct Option tach_options[4] = {
-		{.type = OptionRedirect, .text = "PPR", .redirect = &tach_ppr},
-		{.type = OptionRedirect, .text = "Max RPM", .redirect = &tach_max_rpm},
-		{.type = OptionRedirect, .text = "Live", .redirect = &tach_live},
-		{.type = OptionRedirect, .text = "Threshold", .redirect = &tach_threshold}};
-static struct Screen tach = {.type = ScreenScroll, .optionCount = 4, .options = tach_options};
+static struct Option tach_options[2] = {
+		{.type = OptionRedirect, .text = "Spokes", .redirect = &tach_ppr},
+		{.type = OptionRedirect, .text = "Live", .redirect = &tach_live}};
+static struct Screen tach = {.type = ScreenScroll, .optionCount = 2, .options = tach_options};
 
 static struct Screen sensor1_ppr = {.type = ScreenEdit, .memType = MemByte, .loc = MemPPRSens1};
-static struct Screen sensor1_max_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMaxSens1};
 static struct Screen sensor1_live = {.type = ScreenLive, .update = &sensor1_live_update};
-static struct Option sensor1_options[3] = {
-		{.type = OptionRedirect, .text = "PPR", .redirect = &sensor1_ppr},
-		{.type = OptionRedirect, .text = "Max RPM", .redirect = &sensor1_max_rpm},
+static struct Option sensor1_options[2] = {
+		{.type = OptionRedirect, .text = "Spokes", .redirect = &sensor1_ppr},
 		{.type = OptionRedirect, .text = "Live", .redirect = &sensor1_live}};
-static struct Screen sensor1 = {.type = ScreenScroll, .optionCount = 3, .options = sensor1_options};
+static struct Screen sensor1 = {.type = ScreenScroll, .optionCount = 2, .options = sensor1_options};
 
 static struct Screen sensor2_ppr = {.type = ScreenEdit, .memType = MemByte, .loc = MemPPRSens2};
-static struct Screen sensor2_max_rpm = {.type = ScreenEdit, .memType = MemShort, .loc = MemMaxSens2};
 static struct Screen sensor2_live = {.type = ScreenLive, .update = &sensor2_live_update};
-static struct Option sensor2_options[3] = {
-		{.type = OptionRedirect, .text = "PPR", .redirect = &sensor2_ppr},
-		{.type = OptionRedirect, .text = "Max RPM", .redirect = &sensor2_max_rpm},
+static struct Option sensor2_options[2] = {
+		{.type = OptionRedirect, .text = "Spokes", .redirect = &sensor2_ppr},
 		{.type = OptionRedirect, .text = "Live", .redirect = &sensor2_live}};
-static struct Screen sensor2 = {.type = ScreenScroll, .optionCount = 3, .options = sensor2_options};
+static struct Screen sensor2 = {.type = ScreenScroll, .optionCount = 2, .options = sensor2_options};
 
-static struct Option menu_options[7] = {
+
+static struct Option menu_options[8] = {
 		{.type = OptionToggle, .text = "Mode", .toggleLoc = MemGPSMode, .on = "[GPS]", .off = "[2SR]"},
 		{.type = OptionRedirect, .text = "Trigger", .redirect = &trigger},
 		{.type = OptionRedirect, .text = "GPS", .redirect = &gps},
 		{.type = OptionRedirect, .text = "Tach", .redirect = &tach},
 		{.type = OptionRedirect, .text = "Sensor1", .redirect = &sensor1},
 		{.type = OptionRedirect, .text = "Sensor2", .redirect = &sensor2},
-		{.type = OptionAction, .text = "Reset", .action = &Memory_Reset}};
+		{.type = OptionRedirect, .text = "Factory Pwd", .redirect = &factory_password},
+		{.type = OptionRedirect, .text = "Factory Menu", .redirect = &factory}};
 static struct Screen menu = {.type = ScreenScroll, .optionCount = 7, .options =
 		menu_options, };
 
@@ -202,11 +210,12 @@ static void display_save_variable(void) {
 }
 
 static void display_update_increment(void) {
-	Oled_ClearRectangle(44, 31, 87, 32);
+	Oled_ClearRectangle(44, 31, 88, 33);
 	Oled_DrawBitmap(72-7*incrementIndex, 31, bm_increment, 7, 2);
 }
 
 static void display_update_variable(void) {
+	Oled_ClearRectangle(44, 34, 86, 44);
 	Oled_SetCursor(44, 34);
 	char buf[DISPLAY_MAX_CHARACTERS];
 	if (stack[stackIndex]->memType == MemFloat) {
@@ -241,6 +250,7 @@ static void display_init_screen(void) {
 void Display_Init(void) {
 	Oled_DrawBitmap(0, 0, bm_logo, 128, 16);
 	Oled_DrawBitmap(120, 0, bm_no_signal, 8, 8);
+	menu.optionCount = 7+(Memory_ReadShort(MemFactoryPassword)==DISPLAY_FACTORY_PASSWORD);
 	display_init_screen();
 	Oled_Update();
 }
@@ -354,6 +364,11 @@ void Display_Update(void) {
 		}else if (Input_Pressed(ButtonBack)) {
 			display_save_variable();
 			stackIndex--;
+			if (stack[stackIndex] == &menu) {
+				menu.optionCount = 7+(Memory_ReadShort(MemFactoryPassword)==DISPLAY_FACTORY_PASSWORD);
+				menu.scroll = 4;
+				menu.select = 6;
+			}
 			display_init_screen();
 			Oled_Update();
 		}
