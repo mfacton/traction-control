@@ -7,6 +7,11 @@ static uint8_t mem_buf[MEMORY_SIZE];
 
 void Memory_Init(void) {
 	Eeprom_Read(0, mem_buf, MEMORY_SIZE);
+	HAL_Delay(2);
+	if (Memory_ReadByte(MemHash) != MEMORY_HASH) {
+		Memory_WriteByte(MemHash, MEMORY_HASH);
+		Memory_Reset();
+	}
 }
 
 void Memory_Reset(void) {
@@ -14,6 +19,7 @@ void Memory_Reset(void) {
 	Memory_WriteByte(MemPPR2, 10);
 	Memory_WriteByte(MemPPR3, 10);
 	Memory_WriteByte(MemGPSMode, 0);
+	Memory_WriteByte(MemGPSEnable, 0);
 
 	Memory_WriteShort(MemMinRPM, 20);
 	Memory_WriteShort(MemRPMThresh, 2000);
@@ -21,6 +27,8 @@ void Memory_Reset(void) {
 	Memory_WriteShort(MemMaxRPM2, 8000);
 	Memory_WriteShort(MemMaxRPM3, 8000);
 	Memory_WriteShort(MemTachThresh, 1000);//3.3V/4096
+	Memory_WriteShort(MemSens1Thresh, 2048);
+	Memory_WriteShort(MemSens2Thresh, 2048);
 
 	Memory_WriteFloat(MemTireCirc, 85.0);//53.4 inches
 	Memory_WriteFloat(MemMinSpeed, 2);//2 mph

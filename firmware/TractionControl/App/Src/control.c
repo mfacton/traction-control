@@ -46,19 +46,19 @@ static void control_update(void) {
 }
 
 void Control_Init(void) {
-//	Memory_Init();
-//	Tach_Init();
+	Memory_Init();
+	Tach_Init();
 	GPS_Init();
 	Display_Init();
 
-//	HAL_TIM_Base_Start_IT(&htim1);
-//	HAL_TIM_Base_Start_IT(&htim2);
-//	HAL_TIM_Base_Start_IT(&htim3);
+	HAL_TIM_Base_Start_IT(&htim1);
+	HAL_TIM_Base_Start_IT(&htim2);
+	HAL_TIM_Base_Start_IT(&htim3);
 }
 
 void Control_Loop(void) {
 	GPS_Update();
-//	control_update();
+	control_update();
 	Display_Update();
 	HAL_Delay(50);
 }
@@ -76,18 +76,18 @@ float Control_Ratio(void) {
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if (htim == &htim1) {
-//		Input_Handler();//50hz
+		Input_Handler();//50hz
 	}else if (htim == &htim2) {
-//		Tach_CountHandler();//50khz
+		Tach_CountHandler();//50khz
 	}else {
-//		Tach_UpdateHandler();//50hz
+		Tach_UpdateHandler();//50hz
 	}
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t pin) {
 	if (pin == SIG1_Pin) {
-//		Tach_EventHandler(1);
+		Tach_EventHandler(1);
 	}else{
-//		Tach_EventHandler(2);
+		Tach_EventHandler(2);
 	}
 }

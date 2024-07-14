@@ -85,6 +85,10 @@ void Error_Handler(void);
 #define SCLE_GPIO_Port GPIOA
 #define BTN2_Pin GPIO_PIN_5
 #define BTN2_GPIO_Port GPIOB
+#define GPS_TX_Pin GPIO_PIN_6
+#define GPS_TX_GPIO_Port GPIOB
+#define GPS_RX_Pin GPIO_PIN_7
+#define GPS_RX_GPIO_Port GPIOB
 #define SDAE_Pin GPIO_PIN_9
 #define SDAE_GPIO_Port GPIOB
 

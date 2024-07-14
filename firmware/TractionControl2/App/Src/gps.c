@@ -1,18 +1,15 @@
 #include "gps.h"
-#include "stm32f1xx_hal.h"
+#include "stm32g4xx_hal.h"
 #include "memory.h"
 #include "stdio.h"
 #include "string.h"
 #include "main.h"
 #include "display.h"
 
-#include "ssd1306.h"
-#include "stdio.h"
+extern UART_HandleTypeDef GPS_HANDLE;
 
-extern UART_HandleTypeDef huart1;
-
-static uint8_t gps_rx_buf[200] = {0};
-static uint8_t gps_read_buf[200] = {0};
+static uint8_t gps_rx_buf[GPS_BUFFER_SIZE] = {0};
+static uint8_t gps_read_buf[GPS_BUFFER_SIZE] = {0};
 static volatile uint8_t gps_flag = 0;
 
 static uint8_t gps_fix = 0;
@@ -21,14 +18,8 @@ static uint16_t gps_rpm = 0;
 
 static uint8_t last_fix = 0;
 
-//static void gps_start(void) {
-//	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, gps_rx_buf, 999);
-//	__HAL_DMA_DISABLE_IT(&hdma_usart1_rx, DMA_IT_HT);
-//}
-
 void GPS_Init(void) {
-	HAL_Delay(100);
-	HAL_UART_Receive_DMA(&huart1, gps_rx_buf, 499);
+	HAL_UART_Receive_DMA(&GPS_HANDLE, gps_rx_buf, GPS_BUFFER_SIZE);
 }
 
 void gps_read_data(void) {
@@ -72,16 +63,20 @@ void gps_read_data(void) {
 }
 
 void GPS_Update(void) {
-	HAL_GPIO_WritePin(PGPS_GPIO_Port, PGPS_Pin, Memory_ReadByte(MemGPSEnable));
 	if (gps_flag) {
 		gps_flag = 0;
 		gps_read_data();
-		HAL_UART_Receive_DMA(&huart1, gps_rx_buf, 199);
 		if (gps_fix != last_fix) {
 			last_fix = gps_fix;
 			Display_UpdateGPS();
 		}
 	}
+}
+
+void GPS_Handler(void) {
+	memcpy(gps_read_buf, gps_rx_buf, GPS_BUFFER_SIZE);
+	gps_flag = 1;
+	HAL_UART_Receive_DMA(&GPS_HANDLE, gps_rx_buf, GPS_BUFFER_SIZE);
 }
 
 uint16_t GPS_RPM(void) {
@@ -94,10 +89,4 @@ float GPS_Speed(void) {
 
 uint8_t GPS_Fix(void) {
 	return gps_fix;
-}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-	UNUSED(huart);
-	memcpy(gps_read_buf, gps_rx_buf, 199);
-	gps_flag = 1;
 }
