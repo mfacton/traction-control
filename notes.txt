@@ -1,0 +1,2 @@
+gps should be powered off of 5V
+put a diode to not drain the coincell
