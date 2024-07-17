@@ -92,8 +92,8 @@ static struct Screen trigger_aux = {.type = ScreenEdit, .memType = MemShort, .lo
 static struct Screen trigger_ratio = {.type = ScreenLive, .update = &trigger_ratio_update};
 static struct Screen trigger_live = {.type = ScreenLive, .update = &trigger_live_update};
 static struct Option trigger_options[4] = {
-		{.type = OptionRedirect, .text = "Slip Thresh", .redirect = &trigger_thresh},
-		{.type = OptionRedirect, .text = "Aux Thresh", .redirect = &trigger_aux},
+		{.type = OptionRedirect, .text = "Out Enable", .redirect = &trigger_thresh},
+		{.type = OptionRedirect, .text = "Aux Enable", .redirect = &trigger_aux},
 		{.type = OptionRedirect, .text = "Ratio", .redirect = &trigger_ratio},
 		{.type = OptionRedirect, .text = "Live", .redirect = &trigger_live}};
 static struct Screen trigger = {.type = ScreenScroll, .optionCount = 4, .options = trigger_options};
