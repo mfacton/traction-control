@@ -8,6 +8,14 @@
 
 #define DISPLAY_FACTORY_PASSWORD 200
 
+#ifdef APP_GPS
+#define DISPLAY_MENU_LEN 7
+#define DISPLAY_FACTORY_LEN 7
+#else
+#define DISPLAY_MENU_LEN 5
+#define DISPLAY_FACTORY_LEN 6
+#endif
+
 enum ScreenType {
 	ScreenEdit,
 	ScreenLive,

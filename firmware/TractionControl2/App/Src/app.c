@@ -17,13 +17,17 @@ void App_Init(void) {
 	Memory_Init();
 	Dac_Init();
 	Tach_Init();
+#ifdef APP_GPS
 	GPS_Init();
+#endif
 	Display_Init();
 	Input_Init();
 }
 
 void App_Loop(void) {
+#ifdef APP_GPS
 	GPS_Update();
+#endif
 	Control_Update();
 	Dac_Update();
 	Display_Update();
@@ -44,8 +48,10 @@ void HAL_COMP_TriggerCallback(COMP_HandleTypeDef* hcomp) {
 	Tach_CompHandler(hcomp);
 }
 
+#ifdef APP_GPS
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t size) {
 	UNUSED(huart);
 	UNUSED(size);
 	GPS_Handler();
 }
+#endif

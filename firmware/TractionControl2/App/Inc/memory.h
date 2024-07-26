@@ -9,7 +9,7 @@
 #define MEMORY_SIZE MEMORY_BYTES+2*MEMORY_SHORTS+4*MEMORY_FLOATS
 
 //Change to reset memory on upload
-#define MEMORY_HASH 4
+#define MEMORY_HASH 5
 
 enum MemoryType {
 	MemByte,
