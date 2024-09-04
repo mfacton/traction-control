@@ -1,6 +1,7 @@
 #ifndef INC_DISPLAY_H_
 #define INC_DISPLAY_H_
 
+#include "app.h"
 #include "memory.h"
 
 #define DISPLAY_MAX_STACK 4
@@ -9,11 +10,9 @@
 #define DISPLAY_FACTORY_PASSWORD 200
 
 #ifdef APP_GPS
-#define DISPLAY_MENU_LEN 7
-#define DISPLAY_FACTORY_LEN 7
+#define DISPLAY_MENU_LEN 8
 #else
-#define DISPLAY_MENU_LEN 5
-#define DISPLAY_FACTORY_LEN 6
+#define DISPLAY_MENU_LEN 6
 #endif
 
 enum ScreenType {

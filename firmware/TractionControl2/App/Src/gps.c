@@ -57,7 +57,7 @@ void gps_read_data(void) {
 	//convert kph to mph
 	gps_speed*=0.621371;
 	//convert mph to kph
-	const float min_spd = Memory_ReadFloat(MemMinSpeed)*1.60934;
+	const float min_spd = Memory_ReadFloat(MemMinGPSSpeed)*1.60934;
 	if (speed_temp < min_spd) {
 		speed_temp = min_spd;
 	}

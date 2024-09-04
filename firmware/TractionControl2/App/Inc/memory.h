@@ -9,7 +9,7 @@
 #define MEMORY_SIZE MEMORY_BYTES+2*MEMORY_SHORTS+4*MEMORY_FLOATS
 
 //Change to reset memory on upload
-#define MEMORY_HASH 5
+#define MEMORY_HASH 125
 
 enum MemoryType {
 	MemByte,
@@ -32,7 +32,7 @@ enum MemoryShort{
 	//min front wheel rpm
 	MemMinRPM,
 
-	//max rpms for ignoring higher
+	//max rpm for ignoring higher
 	MemMaxTach,
 	MemMaxSens1,
 	MemMaxSens2,
@@ -51,7 +51,7 @@ enum MemoryFloat{
 	MemTireCirc,//inches
 
 	//Min gps speed
-	MemMinSpeed,//mph
+	MemMinGPSSpeed,//mph
 
 	MemSlipThresh,//percent
 

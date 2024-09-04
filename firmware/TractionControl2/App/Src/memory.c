@@ -9,6 +9,7 @@ void Memory_Init(void) {
 	Eeprom_Read(0, mem_buf, MEMORY_SIZE);
 	HAL_Delay(2);
 	if (Memory_ReadByte(MemHash) != MEMORY_HASH) {
+		HAL_Delay(2);
 		Memory_WriteByte(MemHash, MEMORY_HASH);
 		Memory_Reset();
 	}
@@ -21,8 +22,9 @@ void Memory_Reset(void) {
 	Memory_WriteByte(MemPPRSens2, 10);
 
 	Memory_WriteByte(MemGPSMode, 0);
+
 	//Shorts
-	Memory_WriteShort(MemMinRPM, 20);
+	Memory_WriteShort(MemMinRPM, 10);
 
 	Memory_WriteShort(MemMaxSens2, 10000);
 	Memory_WriteShort(MemMaxSens1, 10000);
@@ -34,10 +36,11 @@ void Memory_Reset(void) {
 	Memory_WriteShort(MemTachLowThresh, 2048);
 
 	Memory_WriteShort(MemFactoryPassword, 0);//reset to 0
+
 	//Floats
 	Memory_WriteFloat(MemTireCirc, 53.4); //53.4 inches
 
-	Memory_WriteFloat(MemMinSpeed, 2.0); //mph
+	Memory_WriteFloat(MemMinGPSSpeed, 2.0); //mph
 
 	Memory_WriteFloat(MemSlipThresh, 10.0); //10.0%
 

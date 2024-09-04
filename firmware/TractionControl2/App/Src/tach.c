@@ -9,7 +9,6 @@ extern TIM_HandleTypeDef htim3;
 extern COMP_HandleTypeDef hcomp1;
 extern COMP_HandleTypeDef hcomp2;
 extern COMP_HandleTypeDef hcomp3;
-extern COMP_HandleTypeDef hcomp4;
 
 static volatile uint32_t count[TACH_CHANNELS] = {0};
 
@@ -25,7 +24,7 @@ void Tach_Init(void) {
 	HAL_COMP_Start(&hcomp1);
 	HAL_COMP_Start(&hcomp2);
 	HAL_COMP_Start(&hcomp3);
-	//	HAL_COMP_Start(&hcomp4);
+//	HAL_COMP_Start(&hcomp4);
 
 	HAL_TIM_Base_Start_IT(&htim2);
 	HAL_TIM_Base_Start_IT(&htim3);
