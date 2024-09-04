@@ -2,7 +2,6 @@
 #include "stm32g4xx_hal.h"
 #include "string.h"
 
-
 static uint8_t oled_buffer[OLED_BUFFER_SIZE] = { 0 };
 static uint16_t cursorX = 0;
 static uint16_t cursorY = 0;
@@ -28,10 +27,9 @@ void Oled_WriteData(uint8_t *buffer, size_t buff_size) {
 extern SPI_HandleTypeDef OLED_HANDLE;
 
 void Oled_Reset(void) {
-	// CS = High (not selected)
-	    HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 1);
+	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 1);
 
-	    // Reset the OLED
+	// Reset the OLED
 #ifdef OLED_RES_PORT
 	    HAL_GPIO_WritePin(OLED_RES_PORT, OLED_RES_PIN, 0);
 	    HAL_Delay(10);
@@ -41,17 +39,17 @@ void Oled_Reset(void) {
 }
 
 void Oled_WriteCommand(uint8_t byte) {
-	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 0); // select OLED
+	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 0);
 	HAL_GPIO_WritePin(OLED_DC_PORT, OLED_DC_PIN, 0); // command
 	HAL_SPI_Transmit(&OLED_HANDLE, (uint8_t *) &byte, 1, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 1); // un-select OLED
+	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 1);
 }
 
-void Oled_WriteData(uint8_t *buffer, size_t buff_size) {
-	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 0); // select OLED
+void Oled_WriteData(uint8_t *buf, uint32_t len) {
+	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 0);
 	HAL_GPIO_WritePin(OLED_DC_PORT, OLED_DC_PIN, 1); // data
-	HAL_SPI_Transmit(&OLED_HANDLE, buffer, buff_size, HAL_MAX_DELAY);
-	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 1); // un-select OLED
+	HAL_SPI_Transmit(&OLED_HANDLE, buf, len, HAL_MAX_DELAY);
+	HAL_GPIO_WritePin(OLED_CS_PORT, OLED_CS_PIN, 1);
 }
 
 #endif
@@ -64,7 +62,7 @@ void Oled_FillBuffer(uint8_t *buf, uint32_t len) {
 
 void Oled_Init(void) {
 	Oled_Reset();
-	HAL_Delay(200);
+	HAL_Delay(100);
 	Oled_SetPower(0);
 
     Oled_WriteCommand(0x20); //Set Memory Addressing Mode
@@ -175,6 +173,14 @@ void Oled_DrawPixel(uint16_t x, uint16_t y) {
 	oled_buffer[x + (y / 8) * OLED_WIDTH] |= 1 << (y % 8);
 }
 
+void Oled_DrawHorizontalLine(uint8_t x1, uint8_t x2, uint8_t y) {
+	const uint8_t mask = 1 << (y % 8);
+	const uint16_t offset = (y / 8) * OLED_WIDTH;
+	for (uint8_t x = x1; x < x2; x++) {
+		oled_buffer[x + offset] |= mask;
+	}
+}
+
 void Oled_ClearRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2) {
 	if (y2 > OLED_HEIGHT){
 		y2 = OLED_HEIGHT;
@@ -208,8 +214,8 @@ void Oled_SetCursor(uint16_t x, uint16_t y) {
 	cursorY = y;
 }
 
-void Oled_WriteChar(char chr, const struct Font* font) {
-	if (chr < FONT_START || chr >= FONT_CHARACTERS + FONT_START) {
+void Oled_DrawChar(char chr, const struct Font* font) {
+	if (chr < FONT_START || chr >= FONT_CHARS + FONT_START) {
 		return;
 	}
 
@@ -230,9 +236,9 @@ void Oled_WriteChar(char chr, const struct Font* font) {
 	cursorX += font->width;
 }
 
-void Oled_WriteString(const char *str, const struct Font* font) {
+void Oled_DrawString(const char *str, const struct Font* font) {
 	while (*str) {
-		Oled_WriteChar(*str, font);
+		Oled_DrawChar(*str, font);
 		str++;
 	}
 }

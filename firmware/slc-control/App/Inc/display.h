@@ -1,12 +1,11 @@
 #ifndef INC_DISPLAY_H_
 #define INC_DISPLAY_H_
 
+#include "stdint.h"
 #include "memory.h"
 
 #define DISPLAY_MAX_STACK 4
-#define DISPLAY_MAX_CHARACTERS 12
-
-#define DISPLAY_FACTORY_PASSWORD 200
+#define DISPLAY_MAX_CHARACTERS 22
 
 enum ScreenType {
 	ScreenEdit,
@@ -36,6 +35,8 @@ struct Option {
 };
 
 struct Screen {
+	char* title;
+	//
 	enum ScreenType type;
 	//scroll
 	uint8_t optionCount;
@@ -51,7 +52,5 @@ struct Screen {
 
 void Display_Init(void);
 void Display_Update(void);
-
-void Display_UpdateGPS(void);
 
 #endif

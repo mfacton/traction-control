@@ -3,45 +3,41 @@
 #include "memory.h"
 #include "dac.h"
 
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef TACH_REF_HANDLE;
+extern TIM_HandleTypeDef TACH_CALC_HANDLE;
 
-extern COMP_HandleTypeDef hcomp1;
-extern COMP_HandleTypeDef hcomp2;
-extern COMP_HandleTypeDef hcomp3;
+static volatile uint32_t count[TACH_COUNT] = {0};
 
-static volatile uint32_t count[TACH_CHANNELS] = {0};
+static volatile uint32_t countAccum[TACH_COUNT] = {0};
+static volatile uint32_t passes[TACH_COUNT] = {0};
 
-static volatile uint32_t countAccum[TACH_CHANNELS] = {0};
-static volatile uint32_t passes[TACH_CHANNELS] = {0};
+static volatile uint32_t checkpointAccum[TACH_COUNT] = {0};
+static volatile uint32_t checkpointPasses[TACH_COUNT] = {0};
 
-static volatile uint32_t checkpointAccum[TACH_CHANNELS] = {0};
-static volatile uint32_t checkpointPasses[TACH_CHANNELS] = {0};
+static uint16_t rpm[TACH_COUNT] = {0};
 
-static uint16_t rpm[TACH_CHANNELS] = {0};
 
 void Tach_Init(void) {
-	HAL_COMP_Start(&hcomp1);
-	HAL_COMP_Start(&hcomp2);
-	HAL_COMP_Start(&hcomp3);
-	//	HAL_COMP_Start(&hcomp4);
-
-	HAL_TIM_Base_Start_IT(&htim2);
-	HAL_TIM_Base_Start_IT(&htim3);
+	HAL_TIM_Base_Start_IT(&TACH_REF_HANDLE);
+	HAL_TIM_Base_Start_IT(&TACH_CALC_HANDLE);
 }
 
-void Tach_Update(void) {
-	for (uint8_t i = 0; i < TACH_CHANNELS; i++) {
+uint8_t Tach_TimFlagCalc(TIM_HandleTypeDef* htim) {
+	return htim == &TACH_CALC_HANDLE;
+}
+
+void Tach_TimHandlerCalc(void) {
+	for (uint8_t i = 0; i < TACH_COUNT; i++) {
 		if (checkpointPasses[i]) {
-			rpm[i] = (float)TACH_COUNT_FREQ*60.0*(float)checkpointPasses[i]/((float)checkpointAccum[i]*(float)Memory_ReadByte(MemPPRTach+i));
+			rpm[i] = (float)TACH_REF_FREQ*60.0*(float)checkpointPasses[i]/((float)checkpointAccum[i]*(float)Memory_ReadByte(MemTach1Spokes+i));
 			countAccum[i] = 0;
 			checkpointAccum[i] = 0;
 		}else if(passes[i]){
-			rpm[i] = (float)TACH_COUNT_FREQ*60.0*(float)passes[i]/((float)countAccum[i]*(float)Memory_ReadByte(MemPPRTach+i));
+			rpm[i] = (float)TACH_REF_FREQ*60.0*(float)passes[i]/((float)countAccum[i]*(float)Memory_ReadByte(MemTach1Spokes+i));
 			countAccum[i] = 0;
 			checkpointAccum[i] = 0;
 		}else {
-			const uint16_t new_rpm = (float)TACH_COUNT_FREQ*60.0/((float)Memory_ReadByte(MemPPRTach+i)*(float)count[i]);
+			const uint16_t new_rpm = (float)TACH_REF_FREQ*60.0/((float)Memory_ReadByte(MemTach1Spokes+i)*(float)count[i]);
 			if (new_rpm < rpm[i]) {
 				rpm[i] = new_rpm;
 			}
@@ -52,34 +48,28 @@ void Tach_Update(void) {
 	}
 }
 
-static void tach_channel_handler(uint8_t chan) {
-	if (count[chan] >= 60.0*(float)TACH_COUNT_FREQ/(Memory_ReadByte(MemPPRTach+chan)*Memory_ReadShort(MemMaxTach+chan))) {
-		passes[chan]++;
-		countAccum[chan]+=count[chan];
-		if (passes[chan] % Memory_ReadByte(MemPPRTach+chan) == 0) {
-			checkpointPasses[chan] = passes[chan];
-			checkpointAccum[chan] = countAccum[chan];
-		}
-		count[chan] = 0;
-	}
+uint8_t Tach_TimFlagRef(TIM_HandleTypeDef* htim) {
+	return htim == &TACH_REF_HANDLE;
 }
 
-void Tach_CompHandler(COMP_HandleTypeDef* hcomp) {
-	if (hcomp == &hcomp3) {
-		tach_channel_handler(TachEngine);
-	}else if (hcomp == &hcomp2) {
-		tach_channel_handler(TachSensor1);
-	}else{
-		tach_channel_handler(TachSensor2);
-	}
-}
-
-void Tach_CountHandler(void) {
+void Tach_TimHandlerRef(void) {
 	count[0]++;
 	count[1]++;
 	count[2]++;
 }
 
-uint16_t Tach_RPM(uint8_t chan) {
+void Tach_Trigger(enum TachId tach) {
+	if (count[tach] >= 60.0*(float)TACH_REF_FREQ/(Memory_ReadByte(MemTach1Spokes+tach)*Memory_ReadShort(MemTach1Max+tach))) {
+		passes[tach]++;
+		countAccum[tach]+=count[tach];
+		if (passes[tach] % Memory_ReadByte(MemTach1Spokes+tach) == 0) {
+			checkpointPasses[tach] = passes[tach];
+			checkpointAccum[tach] = countAccum[tach];
+		}
+		count[tach] = 0;
+	}
+}
+
+uint16_t Tach_GetRpm(uint8_t chan) {
 	return rpm[chan];
 }

@@ -1,25 +1,20 @@
 #ifndef INC_DAC_H_
 #define INC_DAC_H_
 
-#include "stm32g4xx_hal.h"
+#include "stdint.h"
 
-#define DAC_CHANNELS 4
+/* BEGIN CONFIG */
+#define DAC_COUNT 3
 
-struct Dac {
-	DAC_HandleTypeDef *hdac;
-	uint32_t chan;
+#define DAC_LIST T(hdac1, DAC_CHANNEL_2) T(hdac1, DAC_CHANNEL_1) T(hdac3, DAC_CHANNEL_1)
+
+enum DacId {
+	Dac1,
+	Dac2,
+	Dac3,
 };
+/* END CONFIG */
 
-enum DacChannel {
-	DacSens2,
-	DacSens1,
-	DacTachHigh,
-	DacTachLow,
-};
-
-void Dac_Init(void);
-void Dac_Update(void);
-
-void Dac_Set(enum DacChannel dac, uint16_t value);
+void Dac_Set(enum DacId dac, uint16_t value);
 
 #endif

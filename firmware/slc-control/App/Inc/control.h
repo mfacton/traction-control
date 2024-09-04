@@ -3,7 +3,7 @@
 
 void Control_Update(void);
 
-float Control_Slip(void);
-float Control_Ratio(void);
+float Control_GetSlip(void);
+float Control_GetRatio(void);
 
 #endif
