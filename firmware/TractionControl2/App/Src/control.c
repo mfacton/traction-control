@@ -44,16 +44,32 @@ void Control_Update(void) {
 #ifdef APP_GPS
 	}
 #endif
-//	const uint16_t min_rpm = (Memory_ReadFloat(MemMinSpeed)*63360.0)/(60.0*Memory_ReadFloat(MemTireCirc));
+//	const uint16_t min_rpm = Memory_ReadShort(MemMin);
+//	vehicle_rpm = rpm_max(vehicle_rpm, min_rpm);
+#ifdef APP_GPS
+//	const uint16_t min_rpm = (Memory_ReadFloat(MemMinGPS)*63360.0)/(60.0*Memory_ReadFloat(MemTireCirc));
+	if (!Memory_ReadByte(MemGPSMode)) {
+		const uint16_t min_rpm = Memory_ReadShort(MemMinRPM);
+		vehicle_rpm = rpm_max(vehicle_rpm, min_rpm);
+	}
+#endif
 #ifndef APP_GPS
 	const uint16_t min_rpm = Memory_ReadShort(MemMinRPM);
 	vehicle_rpm = rpm_max(vehicle_rpm, min_rpm);
 #endif
-	if (vehicle_rpm < tire_rpm) {
-		slip = 100.0*((float)tire_rpm-(float)vehicle_rpm)/(float)vehicle_rpm;
+	if (vehicle_rpm < tire_rpm ) {
+		slip = 100.0*(1.0f - (float)vehicle_rpm/(float)tire_rpm);
+//		slip = 100.0*((float)tire_rpm-(float)vehicle_rpm)/(float)vehicle_rpm;
 	} else {
 		slip = 0;
 	}
+
+#ifdef APP_GPS
+	if (GPS_Speed() < Memory_ReadFloat(MemMinGPSSpeed)) {
+		HAL_GPIO_WritePin(DRV1_GPIO_Port, DRV1_Pin, 0);
+		return;
+	}
+#endif
 
 	HAL_GPIO_WritePin(DRV1_GPIO_Port, DRV1_Pin, slip > Memory_ReadFloat(MemSlipThresh));
 }

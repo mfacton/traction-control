@@ -25,6 +25,15 @@ void GPS_Init(void) {
 }
 
 void gps_read_data(void) {
+//	float speed_temp1 = 0;
+//	const float min_spd1 = Memory_ReadFloat(MemMinGPSSpeed)*1.60934;
+//	if (speed_temp1 < min_spd1) {
+//		speed_temp1 = min_spd1;
+//	}
+//	gps_speed = (uint16_t)((float)(1e6/60.0)*speed_temp1*0.0393701/(float)Memory_ReadFloat(MemTireCirc));
+//	gps_fix = 1;
+//	return;
+
 	char* ptr = (char*)gps_read_buf;
 	uint8_t cnt = 0;
 	while (cnt < 2) {
@@ -54,14 +63,16 @@ void gps_read_data(void) {
 	*ptr_end = '\0';
 	sscanf(ptr, "%f", &gps_speed);
 	float speed_temp = gps_speed;
+
 	//convert kph to mph
 	gps_speed*=0.621371;
+
 	//convert mph to kph
 	const float min_spd = Memory_ReadFloat(MemMinGPSSpeed)*1.60934;
 	if (speed_temp < min_spd) {
 		speed_temp = min_spd;
 	}
-	//convert from inches to mm too
+
 	gps_rpm = (uint16_t)((float)(1e6/60.0)*speed_temp*0.0393701/(float)Memory_ReadFloat(MemTireCirc));
 	gps_fix = 1;
 }

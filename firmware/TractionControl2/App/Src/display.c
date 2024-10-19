@@ -110,7 +110,7 @@ static struct Option trigger_options[4] = {
 		{.type = OptionRedirect, .text = "Slip Thresh", .redirect = &trigger_thresh},
 		{.type = OptionRedirect, .text = "Aux Thresh", .redirect = &trigger_aux},
 //		{.type = OptionRedirect, .text = "Ratio", .redirect = &trigger_ratio},
-		{.type = OptionRedirect, .text = "Live", .redirect = &trigger_live}};
+		{.type = OptionRedirect, .text = "Live Ratio", .redirect = &trigger_live}};
 static struct Screen trigger = {.type = ScreenScroll, .optionCount = 4, .options = trigger_options};
 
 #ifdef APP_GPS
